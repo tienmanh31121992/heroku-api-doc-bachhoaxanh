@@ -680,6 +680,121 @@
   },
   {
     "type": "post",
+    "url": "/cart/add-cart",
+    "title": "Thêm giỏ hàng",
+    "name": "Thêm_giỏ_hàng",
+    "group": "Giỏ_hàng",
+    "version": "1.0.0",
+    "description": "<p>Khách hàng thêm sản phẩm, giỏ hàng được thêm vào DB</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.product_id",
+            "description": "<p>id Sản phẩm</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.price",
+            "description": "<p>giá sản phẩm</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.quantity",
+            "description": "<p>số lượng mua</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Body Request:",
+          "content": "{        \n     \"product_id\": 1,\n     \"price\": 196000,\n     \"quantity\": 1\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.code",
+            "description": "<p>Mã trạng thái HTTP</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.message",
+            "description": "<p>Thông báo kết quả</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Thêm giỏ hàng thành công\",\n    \"data\": {\n        \"cart_items_count\": 1,\n        \"cart_total_price\": 196000,\n        \"product\": [\n           {\n              \"product_name\": \"Thịt ba chỉ bò Úc Pacow khay\",\n              \"thumbnail_link\": \"product1.png\"\n           }\n        ]      \n    }\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Lỗi Request từ phía Client <ul> <li><code>code:</code> 400</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "412-PreconditionFailed",
+            "description": "<p>Lỗi kiểm tra điều kiện <ul> <li><code>code:</code> 412</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server <ul> <li><code>code:</code> 500</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Yêu cầu không hợp lệ!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 412:",
+          "content": "{\n    \"code\": 412,\n    \"message\": \"Hàng đang tạm hết!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Thêm sản phẩm vào giỏ hàng thất bại!\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/Giohang.py",
+    "groupTitle": "Giỏ_hàng"
+  },
+  {
+    "type": "post",
     "url": "/cart/add-item",
     "title": "Thêm sản phẩm",
     "name": "Thêm_sản_phẩm",
@@ -702,13 +817,20 @@
             "optional": false,
             "field": "product_id",
             "description": "<p>id Sản phẩm</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "quantity",
+            "description": "<p>số lượng mua</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Cách truyền parameter:",
-          "content": "https://www.bachhoaxanh.com/api/v1/cart/add-item?cart_id=1&product_id=1",
+          "content": "https://www.bachhoaxanh.com/api/v1/cart/add-item?cart_id=1&product_id=1&quantity=2",
           "type": "JSON"
         }
       ]
@@ -716,13 +838,6 @@
     "success": {
       "fields": {
         "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "Object",
-            "description": "<p>Kết quả trả về</p>"
-          },
           {
             "group": "Success 200",
             "type": "String",
@@ -778,20 +893,13 @@
             "optional": false,
             "field": "Object.data.product.thumbnail_link",
             "description": "<p>ảnh thumbnail sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.data.product.cart_product_total_price",
-            "description": "<p>tổng tiền sản phẩm</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Thêm sản phẩm vào giỏ hàng thành công\",\n    \"data\": {\n        \"cart_items_count\": 1,\n        \"cart_total_price\": 196000,\n        \"product\": [\n           {\n              \"product_name\": \"Thịt ba chỉ bò Úc Pacow khay\",\n              \"thumbnail_link\": \"product1.png\",\n              \"cart_product_total_price\": 196000\n           }\n        ]      \n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Thêm sản phẩm vào giỏ hàng thành công\",\n    \"data\": {\n        \"cart_items_count\": 2,\n        \"cart_total_price\": 500000,\n        \"product\": [\n           {\n              \"product_name\": \"Thịt ba chỉ bò Úc Pacow khay\",\n              \"thumbnail_link\": \"product1.png\"\n           },\n           {\n              \"product_name\": \"Hộp phô mai que 300g\",\n              \"thumbnail_link\": \"product2.png\"\n           }\n        ]      \n    }\n}",
           "type": "JSON"
         }
       ]
@@ -2646,7 +2754,7 @@
       },
       "examples": [
         {
-          "title": "Success 200:",
+          "title": "Body Request:",
           "content": "{            \n      \"aritcle_id\": 1,\n      \"title\": \"Chia sẻ cách bảo quản cá trong tủ lạnh\",\n      \"content\": \"Để bảo quản cá trong tủ lạnh bạn cần phải...\",\n      \"article_image\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
           "type": "JSON"
         }
@@ -3189,7 +3297,7 @@
       },
       "examples": [
         {
-          "title": "Success 200:",
+          "title": "Body Request:",
           "content": "{            \n      \"customer_id\": 1,\n      \"title\": \"Chia sẻ cách bảo quản thịt trong tủ lạnh\",\n      \"content\": \"Để bảo quản thịt trong tủ lạnh bạn cần phải...\",\n      \"article_image\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
           "type": "JSON"
         }
