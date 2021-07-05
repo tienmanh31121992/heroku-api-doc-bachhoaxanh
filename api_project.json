@@ -38,13 +38,16 @@
     "Hủy_đơn_hàng",
     "Mẹo_vặt",
     "Xem_danh_sách_bài_viết",
-    "Xem_bài_viết"
+    "Xem_bài_viết",
+    "Đăng_bài_viết",
+    "Sửa_bài_viết",
+    "Xóa_bài_viết"
   ],
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2021-07-05T06:42:24.771Z",
+    "time": "2021-07-05T07:35:15.043Z",
     "url": "https://apidocjs.com",
     "version": "0.28.1"
   }

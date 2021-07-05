@@ -1965,7 +1965,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin phiếu mua hàng thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"voucher_code\": \"PHM1000K\",\n            \"voucher_name\": Phiếu mua hàng 1 triệu,\n            \"content\": \"Phiếu mua hàng trị  giá 1.000.000đ\"\n        },\n        {\n            \"id\": 2,\n            \"voucher_code\": \"PHM2000K\",\n            \"voucher_name\": Phiếu mua hàng 2 triệu,\n            \"content\": \"Phiếu mua hàng trị  giá 2.000.000đ\"\n        }\n    ]\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin phiếu mua hàng thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"voucher_code\": \"PHM1000K\",\n            \"voucher_name\": \"Phiếu mua hàng 1 triệu\",\n            \"content\": \"Phiếu mua hàng trị  giá 1.000.000đ\"\n        },\n        {\n            \"id\": 2,\n            \"voucher_code\": \"PHM2000K\",\n            \"voucher_name\": \"Phiếu mua hàng 2 triệu\",\n            \"content\": \"Phiếu mua hàng trị  giá 2.000.000đ\"\n        }\n    ]\n}",
           "type": "JSON"
         }
       ]
@@ -2625,6 +2625,131 @@ define({ "api": [
     "groupTitle": "Khách_hàng"
   },
   {
+    "type": "post",
+    "url": "/articles/update-article",
+    "title": "Sửa bài viết",
+    "name": "Sửa_bài_viết",
+    "group": "Mẹo_vặt",
+    "version": "1.0.0",
+    "description": "<p>Khách hàng đăng bài viết</p>",
+    "parameter": {
+      "fields": {
+        "Body": [
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.article_id",
+            "description": "<p>id bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.title",
+            "description": "<p>tiêu đề bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.content",
+            "description": "<p>nội dung bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Object[]",
+            "optional": false,
+            "field": "Object.article_image",
+            "description": "<p>Đối tượng ảnh bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "String",
+            "optional": false,
+            "field": "Object.article_image.image_link",
+            "description": "<p>Đối tượng ảnh bài viết</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{            \n      \"aritcle_id\": 1,\n      \"title\": \"Chia sẻ cách bảo quản cá trong tủ lạnh\",\n      \"content\": \"Để bảo quản cá trong tủ lạnh bạn cần phải...\",\n      \"article_image\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object",
+            "description": "<p>Kết quả trả về</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.code",
+            "description": "<p>Mã trạng thái HTTP</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.message",
+            "description": "<p>Thông báo kết quả</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Gửi yêu cầu cập nhật bài viết thành công!\",\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Lỗi Request từ phía Client <ul> <li><code>code:</code> 400</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server <ul> <li><code>code:</code> 500</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Yêu cầu không hợp lệ!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Không thể gửi yêu cầu cập nhật bài viết!\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/Meovat.py",
+    "groupTitle": "Mẹo_vặt"
+  },
+  {
     "type": "get",
     "url": "/articles/view-article",
     "title": "Xem bài viết",
@@ -2797,7 +2922,7 @@ define({ "api": [
         },
         {
           "title": "Error 500:",
-          "content": "{\n    \"code\": 500,\n    \"message\": \"Lỗi load bài viết!\"\n}",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Lỗi không hiển thị được dữ liệu bài viết!\"\n}",
           "type": "JSON"
         }
       ]
@@ -2808,64 +2933,11 @@ define({ "api": [
   {
     "type": "get",
     "url": "/articles",
-    "title": "Xem danh sách bài viết, mẹo vặt",
+    "title": "Xem danh sách mẹo vặt (bài viết)",
     "name": "Xem_danh_sách_bài_viết",
     "group": "Mẹo_vặt",
     "version": "1.0.0",
-    "description": "<p>Hiển thị danh sách các bài viết và mẹo vặt</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.article_group_id",
-            "description": "<p>giới hạn số lượng items mà trang được phép load</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.limit",
-            "description": "<p>giới hạn số lượng items mà trang được phép load</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.offset",
-            "description": "<p>vị trí bắt đầu load trang</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Object",
-            "optional": false,
-            "field": "Object.article",
-            "description": "<p>Đối tượng bài viết</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "Object.article.created_at",
-            "description": "<p>ngày tạo bài viết</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Cách truyền parameter (giới hạn load 10 item):",
-          "content": "https://www.bachhoaxanh.com/api/v1/articles?article_group_id=1&sort_by=created_at&limit=10",
-          "type": "JSON"
-        },
-        {
-          "title": "Parameter khi load 10 item tiếp theo:",
-          "content": "https://www.bachhoaxanh.com/api/v1/articles?article_group_id=1&sort_by=created_at&limit=10&offset=10",
-          "type": "JSON"
-        }
-      ]
-    },
+    "description": "<p>Hiển thị danh sách các mẹo vặt (bài viết)</p>",
     "success": {
       "fields": {
         "Success 200": [
@@ -2991,6 +3063,228 @@ define({ "api": [
         {
           "title": "Error 500:",
           "content": "{\n    \"code\": 500,\n    \"message\": \"Lỗi load danh sách bài viết!\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/Meovat.py",
+    "groupTitle": "Mẹo_vặt"
+  },
+  {
+    "type": "delete",
+    "url": "/articles/delete-article",
+    "title": "Xóa bài viết",
+    "name": "Xóa_bài_viết",
+    "group": "Mẹo_vặt",
+    "version": "1.0.0",
+    "description": "<p>Khách hàng xóa bài viết</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "article_id",
+            "description": "<p>id bài viết</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Cách truyền parameter:",
+          "content": "https://www.bachhoaxanh.com/api/v1/articles/delete-article?article_id=1",
+          "type": "JSON"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object",
+            "description": "<p>Kết quả trả về</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.code",
+            "description": "<p>Mã trạng thái HTTP</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.message",
+            "description": "<p>Thông báo kết quả</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Xóa bài viết thành công!\",\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Lỗi Request từ phía Client <ul> <li><code>code:</code> 400</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server <ul> <li><code>code:</code> 500</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Yêu cầu không hợp lệ!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Không thể xóa bài viết!\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/Meovat.py",
+    "groupTitle": "Mẹo_vặt"
+  },
+  {
+    "type": "post",
+    "url": "/articles/send-article",
+    "title": "Đăng bài viết",
+    "name": "Đăng_bài_viết",
+    "group": "Mẹo_vặt",
+    "version": "1.0.0",
+    "description": "<p>Khách hàng đăng bài viết</p>",
+    "parameter": {
+      "fields": {
+        "Body": [
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.customer_id",
+            "description": "<p>id khách hàng</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.title",
+            "description": "<p>tiêu đề bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.content",
+            "description": "<p>nội dung bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Object[]",
+            "optional": false,
+            "field": "Object.article_image",
+            "description": "<p>Đối tượng ảnh bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "String",
+            "optional": false,
+            "field": "Object.article_image.image_link",
+            "description": "<p>Đối tượng ảnh bài viết</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{            \n      \"customer_id\": 1,\n      \"title\": \"Chia sẻ cách bảo quản thịt trong tủ lạnh\",\n      \"content\": \"Để bảo quản thịt trong tủ lạnh bạn cần phải...\",\n      \"article_image\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object",
+            "description": "<p>Kết quả trả về</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.code",
+            "description": "<p>Mã trạng thái HTTP</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.message",
+            "description": "<p>Thông báo kết quả</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Gửi bài viết thành công!\",\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Lỗi Request từ phía Client <ul> <li><code>code:</code> 400</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server <ul> <li><code>code:</code> 500</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Yêu cầu không hợp lệ!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Không thể gửi bài viết!\"\n}",
           "type": "JSON"
         }
       ]
