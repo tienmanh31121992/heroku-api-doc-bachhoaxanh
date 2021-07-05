@@ -885,13 +885,6 @@
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "Object.data.cart_items_count",
-            "description": "<p>đếm số sản phẩm trong giỏ hàng</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
             "field": "Object.data.cart_total_price",
             "description": "<p>tổng tiền trong giỏ hàng</p>"
           },
@@ -906,8 +899,8 @@
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "Object.data.voucher_count",
-            "description": "<p>đếm số lượng voucher</p>"
+            "field": "Object.data.voucher_id",
+            "description": "<p>id voucher</p>"
           },
           {
             "group": "Success 200",
@@ -985,34 +978,13 @@
             "optional": false,
             "field": "Object.data.product.promotion.content",
             "description": "<p>nội dung khuyến mãi</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "Object.data.customer_voucher",
-            "description": "<p>Đối tượng voucher của khách hàng</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.data.customer_voucher.id",
-            "description": "<p>id đếm số lượng</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.data.customer_voucher.voucher_id",
-            "description": "<p>id voucher</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Giỏ hàng load thành công!\",\n    \"data\": {\n       \"cart_items_count\": 2,\n       \"cart_total_price\": 640000,\n       \"ship_fee\": 5000,\n       \"voucher_count\": 5,\n       \"product\": [\n         {\n           \"product_id\": 1,\n           \"product_code\": \"SP001\",\n           \"product_name\": \"Thùng 20 lon bia\",\n           \"thumbnail_link\": \"product1.png\",\n           \"quantity\": 1,\n           \"price\": 280000,\n           \"cart_product_total_price\": 280000,\n           \"promotion\": null\n         },\n         {\n           \"product_id\": 2,\n           \"product_code\": \"SP002\",\n           \"product_name\": \"Thùng 12 gói mì tôm\",\n           \"thumbnail_link\": \"product2.png\",\n           \"quantity\": 2,\n           \"price\": 180000,\n           \"cart_product_total_price\": 360000,\n           \"promotion\": {\n                 \"promotion_id\": 1,\n                 \"promotion_name\": \"Mua 2 tặng 1\",\n                 \"content\": \"Mua 2 thùng 12 gói mì tôm được tặng thêm 1 thùng mì tôm\"\n           }\n         }\n       ],\n         \"customer_voucher\": [\n           {\n               \"id\": 1,\n               \"voucher_id\": 1\n           },\n           {\n               \"id\": 2,\n               \"voucher_id\": 1\n           },\n           {\n               \"id\": 3,\n               \"voucher_id\": 1\n           },\n           {\n               \"id\": 4,\n               \"voucher_id\": 1\n           },\n           {\n               \"id\": 5,\n               \"voucher_id\": 1\n           }\n        ]\n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Giỏ hàng load thành công!\",\n    \"data\": {\n       \"cart_total_price\": 640000,\n       \"ship_fee\": 5000,\n       \"voucher_id\": 1,\n       \"product\": [\n         {\n           \"product_id\": 1,\n           \"product_code\": \"SP001\",\n           \"product_name\": \"Thùng 20 lon bia\",\n           \"thumbnail_link\": \"product1.png\",\n           \"quantity\": 1,\n           \"price\": 280000,\n           \"cart_product_total_price\": 280000,\n           \"promotion\": null\n         },\n         {\n           \"product_id\": 2,\n           \"product_code\": \"SP002\",\n           \"product_name\": \"Thùng 12 gói mì tôm\",\n           \"thumbnail_link\": \"product2.png\",\n           \"quantity\": 2,\n           \"price\": 180000,\n           \"cart_product_total_price\": 360000,\n           \"promotion\": {\n                 \"promotion_id\": 1,\n                 \"promotion_name\": \"Mua 2 tặng 1\",\n                 \"content\": \"Mua 2 thùng 12 gói mì tôm được tặng thêm 1 thùng mì tôm\"\n           }\n         }\n       ]\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -5010,24 +4982,17 @@
         "Body": [
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
-            "field": "Object.data.customer_name",
-            "description": "<p>tên khách hàng</p>"
+            "field": "Object.data.customer_id",
+            "description": "<p>id khách hàng</p>"
           },
           {
             "group": "Body",
             "type": "String",
             "optional": false,
-            "field": "Object.data.customer_phone",
-            "description": "<p>số điện thoại khách hàng</p>"
-          },
-          {
-            "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.receiver_address",
-            "description": "<p>địa chỉ nhận</p>"
+            "field": "Object.data.receiver_name",
+            "description": "<p>tên người nhận</p>"
           },
           {
             "group": "Body",
@@ -5040,19 +5005,26 @@
             "group": "Body",
             "type": "String",
             "optional": false,
+            "field": "Object.data.receiver_address",
+            "description": "<p>địa chỉ nhận</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
             "field": "Object.data.province_id",
             "description": "<p>id tỉnh, thành phố</p>"
           },
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.district_id",
             "description": "<p>id quận, huyện</p>"
           },
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.block_id",
             "description": "<p>id xã, phường</p>"
@@ -5080,14 +5052,14 @@
           },
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.ship_fee",
             "description": "<p>phí ship</p>"
           },
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.total_price",
             "description": "<p>tổng tiền đơn hàng</p>"
@@ -5101,6 +5073,13 @@
           },
           {
             "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.voucher_id",
+            "description": "<p>id phiếu mua hàng</p>"
+          },
+          {
+            "group": "Body",
             "type": "Object",
             "optional": false,
             "field": "Object.data.product",
@@ -5110,43 +5089,29 @@
             "group": "Body",
             "type": "String",
             "optional": false,
-            "field": "Object.data.product.product_name",
-            "description": "<p>tên sản phẩm</p>"
+            "field": "Object.data.product.product_id",
+            "description": "<p>id sản phẩm</p>"
           },
           {
             "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.product.quantity",
             "description": "<p>mua với số lượng</p>"
           },
           {
             "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.product.expired_at",
-            "description": "<p>ngày hết hạn</p>"
-          },
-          {
-            "group": "Body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "Object.data.product.price",
             "description": "<p>giá sản phẩm</p>"
-          },
-          {
-            "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.product.total_price",
-            "description": "<p>tổng tiền sản phẩm</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "JSON - Body request:",
-          "content": "{\n    \"customer_name\": \"Nguyễn Hoàng Sơn\",\n    \"customer_phone\": \"0353395973\",\n    \"receiver_name\": \"Phạm Tiến Mạnh\",\n    \"receiver_phone\": \"0973456233\",\n    \"province_id\": 1,\n    \"district_id\": 8,\n    \"block_id\": 6,\n    \"appointment_date\": \"2/7/2021\",\n    \"delivery_note\": \"mang lên lầu, gọi trước khi giao\",\n    \"bill_note\": \"tôi muốn lưu số người giao hàng\",\n    \"ship_fee\": 19000,\n    \"total_price\": 288000,\n    \"status\": 1,\n    \"product\": [\n          {\n              \"product_name\": \"snack Dorito bịch 64g\",\n              \"quantity\": 3,\n              \"expired_at\": \"30/10/2021\",\n              \"price\": 32000,\n              \"total_price\": 96000\n          },\n          {\n              \"product_name\": \"Hải sản ngũ sắc SG Food gói 300g\",\n              \"quantity\": 4,\n              \"expired_at\": \"30/4/2021\",\n              \"price\": 48000,\n              \"total_price\": 192000\n          }\n    ]\n}",
+          "content": "{\n    \"customer_id\": 1,\n    \"receiver_name\": \"Phạm Tiến Mạnh\",\n    \"receiver_phone\": \"0973456233\",\n    \"receiver_address\": \"Số 8, ngách 141\",\n    \"province_id\": 1,\n    \"district_id\": 8,\n    \"block_id\": 6,\n    \"appointment_date\": \"2/7/2021\",\n    \"delivery_note\": \"mang lên lầu, gọi trước khi giao\",\n    \"bill_note\": \"tôi muốn lưu số người giao hàng\",\n    \"ship_fee\": 19000,\n    \"total_price\": 288000,\n    \"status\": 1,\n    \"voucher_id\": 1,\n    \"product\": [\n          {\n              \"product_id\": 1,\n              \"quantity\": 3,\n              \"price\": 32000\n          },\n          {\n              \"product_id\": 2,\n              \"quantity\": 4,\n              \"price\": 40000\n          }\n    ]\n}",
           "type": "JSON"
         }
       ]
