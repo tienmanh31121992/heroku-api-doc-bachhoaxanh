@@ -41,6 +41,13 @@ define({ "api": [
             "group": "Body",
             "type": "Number",
             "optional": false,
+            "field": "article_id",
+            "description": "<p>ID bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
             "field": "admin_id",
             "description": "<p>ID quản trị viên</p>"
           },
@@ -50,6 +57,20 @@ define({ "api": [
             "optional": false,
             "field": "parent_id",
             "description": "<p>ID bài viết gốc</p>"
+          },
+          {
+            "group": "Body",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Tên người viết bài</p>"
+          },
+          {
+            "group": "Body",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Số điện thoại</p>"
           },
           {
             "group": "Body",
@@ -84,7 +105,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Body request:",
-          "content": "{\n    \"customer_id\": 12,\n    \"product_id\": 22,\n    \"admin_id\": null,\n    \"parent_id\": 0,\n    \"rating\": 5,\n    \"feedback_type\": 1,\n    \"content\": \"Sản phẩm chất lượng\",\n    \"media\": [\n        \"anh_1\",\n        \"anh_2\"\n    ]\n}",
+          "content": "{\n    \"customer_id\": 12,\n    \"product_id\": 22,\n    \"article_id\": null,\n    \"admin_id\": null,\n    \"parent_id\": 0,\n    \"name\": \"Hòa\",\n    \"phone\": \"123123123\",\n    \"rating\": 5,\n    \"feedback_type\": 1,\n    \"content\": \"Sản phẩm chất lượng\",\n    \"media\": [\n        \"anh_1\",\n        \"anh_2\"\n    ]\n}",
           "type": "JSON"
         }
       ]
@@ -159,51 +180,62 @@ define({ "api": [
           {
             "group": "Parameter",
             "type": "Number",
-            "optional": false,
+            "optional": true,
             "field": "product_id",
-            "description": "<p><mark>ID nhóm sản phẩm</mark></p>"
+            "description": "<p><mark>ID sản phẩm</mark></p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "article_id",
+            "description": "<p><mark>ID bài viết</mark></p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
             "field": "feedback_type",
-            "description": "<p><mark>ID nhóm sản phẩm</mark></p> <ul>     <li><code>1:</code> Đánh giá</li>     <li><code>2:</code> Bình luận</li> </ul>"
+            "description": "<p><mark>Loại bình luận, đánh giá</mark></p> <ul>     <li><code>1:</code> Đánh giá</li>     <li><code>2:</code> Bình luận</li> </ul>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "sort_by",
-            "description": "<p><mark>Sắp xếp theo: Mặc định là created_at</mark></p>"
+            "defaultValue": "created_at",
+            "description": "<p><mark>Sắp xếp theo</mark></p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "sort_order",
-            "description": "<p><mark>Kiểu sắp xếp: Mặc định desc</mark></p>"
+            "defaultValue": "desc",
+            "description": "<p><mark>Kiểu sắp xếp</mark></p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "limit",
-            "description": "<p><mark>Giới hạn số lượng bản ghi</mark></p>"
+            "field": "page",
+            "defaultValue": "1",
+            "description": "<p><mark>Vị trí trang cần lấy dữ liệu</mark></p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "offset",
-            "description": "<p><mark>Số phần tử bỏ qua</mark></p>"
+            "field": "per_page",
+            "defaultValue": "2",
+            "description": "<p><mark>Số bài viết trên một trang</mark></p>"
           }
         ]
       },
       "examples": [
         {
           "title": "URL request:",
-          "content": "https://www.bachhoaxanh.com/api/v1/product?product_id=10&feedback_type=1&sort_by=created_at&sort_order=desc&limit=2&offset=0",
+          "content": "https://www.bachhoaxanh.com/api/v1/product?product_id=10&feedback_type=1&sort_by=created_at&sort_order=desc&page=1&per_page=2",
           "type": "json"
         }
       ]
@@ -283,17 +315,45 @@ define({ "api": [
           },
           {
             "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.customer.id",
+            "description": "<p>Mã khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.customer.customer_name",
+            "description": "<p>Tên khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "Object",
             "optional": false,
             "field": "Object.data.customer",
-            "description": "<p>Thông tin khách hàng đã gửi bài viết</p>"
+            "description": "<p>Thông tin khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.admin.id",
+            "description": "<p>Mã quản trị viên</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.admin.admin_name",
+            "description": "<p>Tên quản trị viên</p>"
           },
           {
             "group": "Success 200",
             "type": "Object",
             "optional": false,
             "field": "Object.data.admin",
-            "description": "<p>Thông tin quản trị viên đã gửi bài viết</p>"
+            "description": "<p>Thông tin quản trị viên</p>"
           },
           {
             "group": "Success 200",
@@ -301,13 +361,139 @@ define({ "api": [
             "optional": false,
             "field": "Object.data.child",
             "description": "<p>Danh sách các bình luận, đánh giá con</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.id",
+            "description": "<p>ID bình luận, đánh giá</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.parent_id",
+            "description": "<p>ID bài viết gốc</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.feedback_type",
+            "description": "<p>ID bình luận, đánh giá</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Date",
+            "optional": false,
+            "field": "Object.data.child.created_at",
+            "description": "<p>Ngày gửi bài viết</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.child.content",
+            "description": "<p>Nội dung</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "Object.data.child.media",
+            "description": "<p>Danh sách đường dẫn lưu phương tiện của bài viết</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.likes",
+            "description": "<p>Lượt thích</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object.data.child.customer",
+            "description": "<p>Thông tin khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.customer.id",
+            "description": "<p>Mã khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.child.customer.customer_name",
+            "description": "<p>Tên khách hàng</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object.data.child.admin",
+            "description": "<p>Thông tin quản trị viên</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.data.child.admin.id",
+            "description": "<p>Mã quản trị viên</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.child.admin.admin_name",
+            "description": "<p>Tên quản trị viên</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object.paging",
+            "description": "<p>Thông tin phân trang</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.paging.page",
+            "description": "<p>Vị trí trang yêu cầu</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.paging.per_page",
+            "description": "<p>Số  bài viết trên một trang</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.paging.total_page",
+            "description": "<p>Tổng số trang</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "Object.paging.total_count",
+            "description": "<p>Tổng số bài viết</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách đánh giá thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"parent_id\": 0,\n            \"rating\": 5,\n            \"feedback_type\": 1,\n            \"created_at\": \"01/07/2021\",\n            \"content\": \"Sản phẩm chất lượng\",\n            \"media\": [\n                \"anh_1\",\n                \"anh_2\"\n            ],\n            \"likes\": 10,\n            \"customer\": {\n                \"customer_id\": 12,\n                \"customer_name\": \"Quy\"\n            },\n            \"admin\": null,\n            \"child\": null\n        },\n        {\n            \"id\": 2,\n            \"parent_id\": 0,\n            \"rating\": 5,\n            \"feedback_type\": 1,\n            \"created_at\": \"01/07/2021\",\n            \"content\": \"Sản phẩm tốt\",\n            \"media\": [\n                \"anh_3\",\n                \"anh_4\"\n            ],\n            \"likes\": 12,\n            \"customer\": {\n                \"customer_id\": 13,\n                \"customer_name\": \"Hoa\"\n            },\n            \"admin_id\": null,\n            \"child\": null\n        }\n    ]\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách đánh giá thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"parent_id\": 0,\n            \"rating\": 5,\n            \"feedback_type\": 1,\n            \"created_at\": \"01/07/2021\",\n            \"content\": \"Sản phẩm chất lượng\",\n            \"media\": [\n                \"anh_1\",\n                \"anh_2\"\n            ],\n            \"likes\": 10,\n            \"customer\": {\n                \"customer_id\": 12,\n                \"customer_name\": \"Quy\"\n            },\n            \"admin\": null,\n            \"child\": null\n        },\n        {\n            \"id\": 2,\n            \"parent_id\": 0,\n            \"rating\": 5,\n            \"feedback_type\": 1,\n            \"created_at\": \"01/07/2021\",\n            \"content\": \"Sản phẩm tốt\",\n            \"media\": [\n                \"anh_3\",\n                \"anh_4\"\n            ],\n            \"likes\": 12,\n            \"customer\": {\n                \"customer_id\": 13,\n                \"customer_name\": \"Hoa\"\n            },\n            \"admin_id\": null,\n            \"child\": null\n        }\n    ],\n    \"paging\":{\n        \"page\": 1,\n        \"per_page\": 2,\n        \"page_count\": 10,\n        \"total_count\": 20\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -1626,6 +1812,160 @@ define({ "api": [
         {
           "title": "Success 200:",
           "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin sản phẩm thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"search_string\": \"thit ga\",\n            \"search_number\": 10,\n            \"searched_at\": \"01/06/2021\"\n        },\n        {\n            \"id\": 2,\n            \"search_string\": \"trung\",\n            \"search_number\": 30,\n            \"searched_at\": \"01/06/2021\"\n        },\n        {\n            \"id\": 3,\n            \"search_string\": \"pepsi\",\n            \"search_number\": 15,\n            \"searched_at\": \"01/06/2021\"\n        },\n        {\n            \"id\": 1,\n            \"search_string\": \"banh keo\",\n            \"search_number\": 10,\n            \"searched_at\": \"01/06/2021\"\n        }\n    ]\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Không thể xử lý yêu cầu.</p> <ul>     <li><code>code:</code> 400</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404-NotFound",
+            "description": "<p>Không tìm thấy dữ liệu.</p> <ul>     <li><code>code:</code> 404</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server</p> <ul>     <li><code>code:</code> 500</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Sai định dạng URL!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 404:",
+          "content": "{\n    \"code\": 404,\n    \"message\": \"Không tìm thấy dữ liệu!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Xảy ra lỗi khi lấy lịch sử tìm kiếm: Mô tả lỗi.\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/KhachHang.py",
+    "groupTitle": "Khách_hàng"
+  },
+  {
+    "type": "get",
+    "url": "/customer/<id>/voucher",
+    "title": "Phiếu mua hàng",
+    "name": "Phiếu_mua_hàng",
+    "group": "Khách_hàng",
+    "version": "1.0.0",
+    "description": "<p>Lấy danh sách phiếu mua hàng khách hàng đang sở hữu</p>",
+    "parameter": {
+      "fields": {
+        "Path": [
+          {
+            "group": "Path",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p><mark>ID khách hàng</mark></p>"
+          }
+        ],
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "sort_by",
+            "defaultValue": "id",
+            "description": "<p><mark>Sắp xếp theo cột</mark></p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "sort_order",
+            "defaultValue": "asc",
+            "description": "<p><mark>Kiểu sắp xếp</mark></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "URL request:",
+          "content": "https://www.bachhoaxanh.com/api/v1/customer/<id>/voucher?sort_by=id&sort_order=asc",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>Mã trạng thái HTTP <br><mark>200-OK: Yêu cầu được tiếp nhận và xử lý thành công</mark></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Thông báo kết quả</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Danh sách thông tin voucher</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "data.id",
+            "description": "<p>ID voucher</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.voucher_code",
+            "description": "<p>Mã voucher</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.voucher_name",
+            "description": "<p>Tên voucher</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.content",
+            "description": "<p>Nội dung</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin phiếu mua hàng thành công!\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"voucher_code\": \"PHM1000K\",\n            \"voucher_name\": Phiếu mua hàng 1 triệu,\n            \"content\": \"Phiếu mua hàng trị  giá 1.000.000đ\"\n        },\n        {\n            \"id\": 2,\n            \"voucher_code\": \"PHM2000K\",\n            \"voucher_name\": Phiếu mua hàng 2 triệu,\n            \"content\": \"Phiếu mua hàng trị  giá 2.000.000đ\"\n        }\n    ]\n}",
           "type": "JSON"
         }
       ]
