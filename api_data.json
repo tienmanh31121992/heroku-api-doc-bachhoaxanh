@@ -1474,8 +1474,130 @@
     "groupTitle": "Khuyến_mãi"
   },
   {
+    "type": "get",
+    "url": "/promotions/actions/count-products",
+    "title": "Lấy tổng sản phẩm khuyến mãi",
+    "name": "Lấy_tổng_khuyến_mãi",
+    "group": "Khuyến_mãi",
+    "version": "1.0.0",
+    "description": "<p>Lấy tổng sản phẩm đang được khuyến mãi</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": true,
+            "field": "product_group_id",
+            "description": "<p><mark>ID nhóm sản phẩm <br><code>-1:</code> Tính tổng toàn bộ sản phẩm khuyến mãi</mark></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "URL request:",
+          "content": "{host}/api/v1.0/promotions/actions/count-products?product_group_id=1,2,3",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "O.code",
+            "description": "<p>Mã trạng thái HTTP <br><mark><code>200:</code> Yêu cầu được tiếp nhận và xử lý thành công</mark></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "O.message",
+            "description": "<p>Thông báo kết quả</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "O.data",
+            "description": "<p>Danh sách thông tin khuyến mãi</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "O.data.product_group_id",
+            "description": "<p>ID nhóm sản phẩm</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "O.data.total_product",
+            "description": "<p>Tổng số sản phẩm</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success 200:",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy tổng sản phẩm khuyến mãi thành công!\",\n    \"data\": [\n        {\n            \"product_group_id\": 1,\n            \"total_products\": 40\n        },\n        {\n            \"product_group_id\": 2,\n            \"total_products\": 50\n        },\n        {\n            \"product_group_id\": 3,\n            \"total_products\": 17\n        }\n    ]\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400-BadRequest",
+            "description": "<p>Không thể xử lý yêu cầu.</p> <ul>     <li><code>code:</code> 400</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404-NotFound",
+            "description": "<p>Không tìm thấy dữ liệu.</p> <ul>     <li><code>code:</code> 404</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500-InternalServerError",
+            "description": "<p>Lỗi Server</p> <ul>     <li><code>code:</code> 500</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error 400:",
+          "content": "{\n    \"code\": 400,\n    \"message\": \"Sai định dạng URL!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 404:",
+          "content": "{\n    \"code\": 404,\n    \"message\": \"Không tìm thấy dữ liệu!\"\n}",
+          "type": "JSON"
+        },
+        {
+          "title": "Error 500:",
+          "content": "{\n    \"code\": 500,\n    \"message\": \"Xảy ra lỗi khi lấy tổng sản phẩm khuyễn mãi: Mô tả lỗi.\"\n}",
+          "type": "JSON"
+        }
+      ]
+    },
+    "filename": "source/KhuyenMai.py",
+    "groupTitle": "Khuyến_mãi"
+  },
+  {
     "type": "patch",
-    "url": "/customers/<customer_id>",
+    "url": "/customers",
     "title": "Cập nhật thông tin",
     "name": "Cập_nhật_thông_tin",
     "group": "Khách_hàng",
@@ -1510,15 +1632,6 @@
     },
     "parameter": {
       "fields": {
-        "Path": [
-          {
-            "group": "Path",
-            "type": "Number",
-            "optional": false,
-            "field": "customer_id",
-            "description": "<p>ID khách hàng</p>"
-          }
-        ],
         "Body": [
           {
             "group": "Body",
@@ -1558,21 +1671,21 @@
           {
             "group": "Body",
             "type": "Date",
-            "optional": false,
-            "field": "date_birth",
+            "optional": true,
+            "field": "date_of_birth",
             "description": "<p>Ngày sinh</p>"
           },
           {
             "group": "Body",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "avatar_link",
             "description": "<p>Đường dẫn lưu ảnh đại diện</p>"
           },
           {
             "group": "Body",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "email",
             "description": "<p>Địa chỉ thư điện tử</p>"
           },
@@ -1590,28 +1703,28 @@
           {
             "group": "Body",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "guardian_name",
             "description": "<p>Tên người giám hộ</p>"
           },
           {
             "group": "Body",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "indentity_id",
             "description": "<p>Số chứng minh thư, căn cước, hộ chiếu</p>"
           },
           {
             "group": "Body",
             "type": "Date",
-            "optional": false,
+            "optional": true,
             "field": "certify_date",
             "description": "<p>Ngày cấp CMT, CCCD, HC</p>"
           },
           {
             "group": "Body",
             "type": "String",
-            "optional": false,
+            "optional": true,
             "field": "certify_place",
             "description": "<p>Nơi cấp CMT, CCCD, HC</p>"
           },
@@ -1640,13 +1753,8 @@
       },
       "examples": [
         {
-          "title": "URL request:",
-          "content": "{host}/api/v1.0/customers/10",
-          "type": "json"
-        },
-        {
           "title": "Body request:",
-          "content": "{\n    \"customer_id\": 10,\n    \"customer_code\": \"A0000001\",\n    \"customer_name\": \"Phạm Tiến Mạnh\",\n    \"customer_phone\": \"0123456789\",\n    \"customer_address\": \"Số 11, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n    \"date_birth\": \"31/12/1992\",\n    \"avatar_link\": \"avatar1.jpg\",\n    \"email\": \"asdasdasf@gmail.com\",\n    \"gender\": 1,\n    \"guardian_name\": null,\n    \"indentity_id\": \"HC000001VN\",\n    \"certify_date\": \"10/10/2010\",\n    \"certify_place\": \"Hải Dương\",\n    \"province_id\": 4,\n    \"district_id\": 5,\n    \"block_id\": 6\n}",
+          "content": "{\n    \"customer_id\": 10,\n    \"customer_code\": \"A0000001\",\n    \"customer_name\": \"Phạm Tiến Mạnh\",\n    \"customer_phone\": \"0123456789\",\n    \"customer_address\": \"Số 11, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n    \"date_of_birth\": \"31/12/1992\",\n    \"avatar_link\": \"avatar1.jpg\",\n    \"email\": \"asdasdasf@gmail.com\",\n    \"gender\": 1,\n    \"guardian_name\": null,\n    \"indentity_id\": \"HC000001VN\",\n    \"certify_date\": \"10/10/2010\",\n    \"certify_place\": \"Hải Dương\",\n    \"province_id\": 4,\n    \"district_id\": 5,\n    \"block_id\": 6\n}",
           "type": "JSON"
         }
       ]
@@ -1714,7 +1822,7 @@
             "group": "Success 200",
             "type": "Date",
             "optional": false,
-            "field": "O.data.date_birth",
+            "field": "O.data.date_of_birth",
             "description": "<p>Ngày sinh</p>"
           },
           {
@@ -1792,7 +1900,7 @@
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Cập nhật thông tin thành công!\",\n    \"data\": {\n        \"customer_id\": 1,\n        \"customer_code\": \"A0000001\",\n        \"customer_name\": \"Phạm Tiến Mạnh\",\n        \"customer_phone\": \"0123456789\",\n        \"customer_address\": \"Số 11, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n        \"date_birth\": \"31/12/1992\",\n        \"avatar_link\": \"avatar2.jpg\",\n        \"email\": \"asdasdasf@gmail.com\",\n        \"gender\": 1,\n        \"guardian_name\": null,\n        \"indentity_id\": \"HC000001VN\",\n        \"certify_date\": \"10/10/2010\",\n        \"certify_place\": \"Hải Dương\",\n        \"province_id\": 4,\n        \"district_id\": 5,\n        \"block_id\": 6\n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Cập nhật thông tin thành công!\",\n    \"data\": {\n        \"customer_id\": 1,\n        \"customer_code\": \"A0000001\",\n        \"customer_name\": \"Phạm Tiến Mạnh\",\n        \"customer_phone\": \"0123456789\",\n        \"customer_address\": \"Số 11, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n        \"date_of_birth\": \"31/12/1992\",\n        \"avatar_link\": \"avatar2.jpg\",\n        \"email\": \"asdasdasf@gmail.com\",\n        \"gender\": 1,\n        \"guardian_name\": null,\n        \"indentity_id\": \"HC000001VN\",\n        \"certify_date\": \"10/10/2010\",\n        \"certify_place\": \"Hải Dương\",\n        \"province_id\": 4,\n        \"district_id\": 5,\n        \"block_id\": 6\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -1988,8 +2096,8 @@
   },
   {
     "type": "post",
-    "url": "/customers/<customer_id>/vouchers",
-    "title": "Đặt mua phiếu mua hàng điện tử",
+    "url": "/customers/actions/order-giftcards",
+    "title": "Đặt mua phiếu mua hàng",
     "name": "Mua_phiếu_mua_hàng",
     "group": "Khách_hàng",
     "version": "1.0.0",
@@ -2023,25 +2131,30 @@
     },
     "parameter": {
       "fields": {
-        "Path": [
+        "Body": [
           {
-            "group": "Path",
+            "group": "Body",
             "type": "Number",
             "optional": false,
             "field": "customer_id",
             "description": "<p>ID khách hàng</p>"
-          }
-        ],
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "voucher_id",
-            "description": "<p>ID voucher</p>"
           },
           {
-            "group": "Parameter",
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "gift_card_id",
+            "description": "<p>ID phiếu mua hàng</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Số điện thoại nhận mã sử dụng phiếu mua hàng</p>"
+          },
+          {
+            "group": "Body",
             "type": "Number",
             "optional": false,
             "field": "quantity",
@@ -2051,8 +2164,8 @@
       },
       "examples": [
         {
-          "title": "URL request:",
-          "content": "{host}/api/v1.0/customers/10/vouchers?voucher_id=1&quantity=2",
+          "title": "Body request:",
+          "content": "{\n    \"customer_id\": 10,\n    \"gift_card_id\": 1,\n    \"customer_phone\": \"0123456789\",\n    \"quantity\": 2\n}",
           "type": "json"
         }
       ]
@@ -2079,7 +2192,7 @@
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Đặt mua phiếu mua hàng điện tử thành công!\"\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Đặt mua phiếu mua hàng thành công!\"\n}",
           "type": "JSON"
         }
       ]
@@ -2746,7 +2859,7 @@
   },
   {
     "type": "get",
-    "url": "/customers/<customer_id>/vouchers",
+    "url": "/customers/<customer_id>/giftcards",
     "title": "Xem phiếu mua hàng đang sở hữu",
     "name": "Xem_phiếu_mua_hàng",
     "group": "Khách_hàng",
@@ -2801,7 +2914,7 @@
       "examples": [
         {
           "title": "URL request:",
-          "content": "{host}/api/v1.0/customers/10/vouchers?sort=-end_time",
+          "content": "{host}/api/v1.0/customers/10/giftcards?sort=-end_time",
           "type": "json"
         }
       ]
@@ -2828,56 +2941,42 @@
             "type": "Object[]",
             "optional": false,
             "field": "O.data",
-            "description": "<p>Danh sách thông tin voucher</p>"
+            "description": "<p>Danh sách thông tin phiếu mua hàng</p>"
           },
           {
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "O.data.voucher_id",
-            "description": "<p>ID voucher</p>"
+            "field": "O.data.gift_card_id",
+            "description": "<p>ID phiếu mua hàng khách hàng đang sở hữu</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "O.data.voucher_code",
-            "description": "<p>Mã voucher</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.voucher_name",
-            "description": "<p>Tên voucher</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.content",
-            "description": "<p>Nội dung</p>"
+            "field": "O.data.gift_card_code",
+            "description": "<p>Mã sử dụng của phiếu mua hàng</p>"
           },
           {
             "group": "Success 200",
             "type": "Date",
             "optional": false,
             "field": "O.data.end_time",
-            "description": "<p>Thời hạn voucher của khách hàng</p>"
+            "description": "<p>Thời hạn phiếu mua hàng của khách hàng</p>"
           },
           {
             "group": "Success 200",
             "type": "Number",
             "optional": false,
             "field": "O.data.value",
-            "description": "<p>Giá trị của voucher</p>"
+            "description": "<p>Giá trị của phiếu mua hàng</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin phiếu mua hàng thành công!\",\n    \"data\": [\n        {\n            \"voucher_id\": 1,\n            \"voucher_code\": \"PHM1000K\",\n            \"voucher_name\": \"Phiếu mua hàng 1 triệu\",\n            \"content\": \"Phiếu mua hàng trị  giá 1.000.000đ\",\n            \"end_time\": \"31/12/2021\",\n            \"value\": 1000000\n        },\n        {\n            \"voucher_id\": 2,\n            \"voucher_code\": \"PHM2000K\",\n            \"voucher_name\": \"Phiếu mua hàng 2 triệu\",\n            \"content\": \"Phiếu mua hàng trị  giá 2.000.000đ\"\n            \"end_time\": \"31/12/2022\"\n            \"value\": 2000000\n        }\n    ]\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy thông tin phiếu mua hàng thành công!\",\n    \"data\": [\n        {\n            \"gift_card_id\": 1,\n            \"gift_card_code\": \"PHM1000K-0626565\",\n            \"end_time\": \"31/12/2021\",\n            \"value\": 1000000\n        },\n        {\n            \"gift_card_id\": 1,\n            \"gift_card_code\": \"PHM1000K-56464564\",\n            \"end_time\": \"31/12/2021\",\n            \"value\": 1000000\n        },\n        {\n            \"gift_card_id\": 2,\n            \"gift_card_code\": \"PHM2000K-6546464565\",\n            \"end_time\": \"31/12/2022\"\n            \"value\": 2000000\n        }\n    ]\n}",
           "type": "JSON"
         }
       ]
@@ -2981,7 +3080,7 @@
             "group": "Body",
             "type": "String",
             "optional": false,
-            "field": "phone",
+            "field": "customer_phone",
             "description": "<p>Số điện thoại</p>"
           },
           {
@@ -3073,7 +3172,7 @@
       "examples": [
         {
           "title": "Body request:",
-          "content": "{\n    \"customer_name\": \"Tiến Mạnh\",\n    \"gender\": 1,\n    \"phone\": \"0123456789\",\n    \"password\": \"a1b2c3A@\",\n    \"address\": \"Số 9, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n    \"date_birth\": \"31/12/1992\",\n    \"email\": \"asdasdasf@gmail.com\",\n    \"avatar_link\": \"avatar1.jpg\",\n    \"guardian_name\": null,\n    \"indentity_id\": \"HC000001VN\",\n    \"certify_date\": \"12/12/2009\",\n    \"certify_place\": \"Hải Dương\",\n    \"province_id\": 1,\n    \"district_id\": 2,\n    \"block_id\": 3\n}",
+          "content": "{\n    \"customer_name\": \"Tiến Mạnh\",\n    \"gender\": 1,\n    \"customer_phone\": \"0123456789\",\n    \"password\": \"a1b2c3A@\",\n    \"address\": \"Số 9, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n    \"date_of_birth\": \"31/12/1992\",\n    \"email\": \"asdasdasf@gmail.com\",\n    \"avatar_link\": \"avatar1.jpg\",\n    \"guardian_name\": null,\n    \"indentity_id\": \"HC000001VN\",\n    \"certify_date\": \"12/12/2009\",\n    \"certify_place\": \"Hải Dương\",\n    \"province_id\": 1,\n    \"district_id\": 2,\n    \"block_id\": 3\n}",
           "type": "JSON"
         }
       ]
@@ -3175,7 +3274,7 @@
             "group": "Body",
             "type": "String",
             "optional": false,
-            "field": "phone",
+            "field": "customer_phone",
             "description": "<p>Số điện thoại khách hàng</p>"
           },
           {
@@ -3190,7 +3289,7 @@
       "examples": [
         {
           "title": "Body request:",
-          "content": "{\n    \"phone\": \"0123456789\",\n    \"password\": \"a1b2c3A@\"\n}",
+          "content": "{\n    \"customer_phone\": \"0123456789\",\n    \"password\": \"a1b2c3A@\"\n}",
           "type": "JSON"
         }
       ]
@@ -3272,7 +3371,7 @@
             "group": "Success 200",
             "type": "Date",
             "optional": false,
-            "field": "O.data.date_birth",
+            "field": "O.data.date_of_birth",
             "description": "<p>Ngày sinh</p>"
           },
           {
@@ -3343,7 +3442,7 @@
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Đăng nhập thành công!\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\"\n    \"data\": {\n        \"customer_id\": 10,\n        \"customer_code\": \"A0000001\",\n        \"customer_name\": \"Tiến Mạnh\",\n        \"gender\": 1,\n        \"customer_phone\": \"0123456789\",\n        \"customer_address\": \"Số 9, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n        \"date_birth\": \"31/12/1992\",\n        \"email\": \"asdasdasf@gmail.com\",\n        \"avatar_link\": \"avatar1.jpg\",\n        \"guardian_name\": null,\n        \"indentity_id\": \"HC000001VN\",\n        \"certify_date\": \"12/12/2009\",\n        \"certify_place\": \"Hải Dương\",\n        \"province_id\": 1,\n        \"district_id\": 2,\n        \"block_id\": 3\n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Đăng nhập thành công!\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\"\n    \"data\": {\n        \"customer_id\": 10,\n        \"customer_code\": \"A0000001\",\n        \"customer_name\": \"Tiến Mạnh\",\n        \"gender\": 1,\n        \"customer_phone\": \"0123456789\",\n        \"customer_address\": \"Số 9, ngõ 11 đường Cầu Diễn, Phường Minh Khai, Quận Bắc Từ Liêm, Hà Nội\",\n        \"date_of_birth\": \"31/12/1992\",\n        \"email\": \"asdasdasf@gmail.com\",\n        \"avatar_link\": \"avatar1.jpg\",\n        \"guardian_name\": null,\n        \"indentity_id\": \"HC000001VN\",\n        \"certify_date\": \"12/12/2009\",\n        \"certify_place\": \"Hải Dương\",\n        \"province_id\": 1,\n        \"district_id\": 2,\n        \"block_id\": 3\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -3563,15 +3662,29 @@
   },
   {
     "type": "get",
-    "url": "/articles/<article_group_id>",
-    "title": "Lấy danh sách bài viết theo nhóm bài viết",
-    "name": "Lấy_danh_sách_bài_viết_theo_nhóm",
+    "url": "/articles",
+    "title": "Lấy danh sách bài viết",
+    "name": "Lấy_danh_sách_bài_viết",
     "group": "Mẹo_vặt",
     "version": "1.0.0",
-    "description": "<p>Hiển thị danh sách các bài viết (mẹo vặt) theo nhóm bài viết</p>",
+    "description": "<p>Hiển thị danh sách các bài viết (mẹo vặt)</p>",
     "parameter": {
       "fields": {
         "Body": [
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "article_group_id",
+            "description": "<p>id nhóm bài viết</p>"
+          },
+          {
+            "group": "Body",
+            "type": "Number",
+            "optional": false,
+            "field": "tag_id",
+            "description": "<p>id tag bài viết</p>"
+          },
           {
             "group": "Body",
             "type": "String",
@@ -3604,13 +3717,8 @@
       },
       "examples": [
         {
-          "title": "cách gọi URL:",
-          "content": "{host}/api/v1.0/articles/1",
-          "type": "JSON"
-        },
-        {
           "title": "Body Request:",
-          "content": "{\n    \"sort_by\": \"date_created\",\n    \"sort_type\": \"desc\",\n    \"page\": 0,\n    \"per_page\": 10\n}",
+          "content": "{\n    \"article_group_id\": 1,\n    \"tag_id\": null,\n    \"sort_by\": \"date_created\",\n    \"sort_type\": \"desc\",\n    \"page\": 0,\n    \"per_page\": 10\n}",
           "type": "JSON"
         }
       ]
@@ -3721,207 +3829,7 @@
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Hiển thị danh sách bài viết thành công!\",\n    \"data\": {\n          \"group_name\": \"Mẹo hay mới\",\n          \"article\": [\n             {\n                 \"article_name\": \"Vì sao lấy mẫu xét nghiệm Covid lúc nào cũng lấy nhóm 10 hoặc 15 người?\",\n                 \"title\": \"Nhiều người khi đi xét nghiệm luôn thắc mắc câu hỏi vì sao...\",\n                 \"thumbnail_link\": \"article1.png\",\n                 \"views_count\": 450,\n                 \"comments_count\": 0\n             },\n             {\n                 \"article_name\": \"Nấm mối là nấm gì mà giá 1 triệu/kg vẫn có người sẵn sàng mua?\",\n                 \"title\": \"Nấm mối là nguyên liệu không thể thiếu trong các món ăn ngon, hấp dẫn...\",\n                 \"thumbnail_link\": \"article2.png\",\n                 \"views_count\": 550,\n                 \"comments_count\": 1\n             }\n          ],\n          \"paging\": {\n                 \"page\":0,\n                 \"per_page\": 10,\n                 \"total_items\": 1000,\n                 \"total_pages\": 100\n          }\n    }\n}",
-          "type": "JSON"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400-BadRequest",
-            "description": "<p>Lỗi Request từ phía Client <ul> <li><code>code:</code> 400</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
-          }
-        ],
-        "Error 5xx": [
-          {
-            "group": "Error 5xx",
-            "optional": false,
-            "field": "500-InternalServerError",
-            "description": "<p>Lỗi Server <ul> <li><code>code:</code> 500</li> <li><code>message:</code> Thông báo lỗi</li> </ul></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error 400:",
-          "content": "{\n    \"code\": 400,\n    \"message\": \"Yêu cầu không hợp lệ!\"\n}",
-          "type": "JSON"
-        },
-        {
-          "title": "Error 500:",
-          "content": "{\n    \"code\": 500,\n    \"message\": \"Lỗi hiển thị danh sách bài viết!\"\n}",
-          "type": "JSON"
-        }
-      ]
-    },
-    "filename": "source/Meovat.py",
-    "groupTitle": "Mẹo_vặt"
-  },
-  {
-    "type": "get",
-    "url": "/articles/<tag_id>",
-    "title": "Lấy danh sách bài viết theo tag",
-    "name": "Lấy_danh_sách_bài_viết_theo_tag",
-    "group": "Mẹo_vặt",
-    "version": "1.0.0",
-    "description": "<p>Hiển thị danh sách các bài viết (mẹo vặt) theo tag</p>",
-    "parameter": {
-      "fields": {
-        "Body": [
-          {
-            "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "sort_by",
-            "description": "<p>điều kiện sắp xếp <p>(ví dụ sắp xếp theo ngày tạo)</p></p>"
-          },
-          {
-            "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "sort_type",
-            "description": "<p>kiểu sắp xếp <p>(Tăng dần hoặc giảm dần)</p></p>"
-          },
-          {
-            "group": "Body",
-            "type": "Number",
-            "optional": false,
-            "field": "page",
-            "description": "<p>thứ tự trang <p>(page=0 là trang đầu tiên, page=1 là trang thứ 2)</p></p>"
-          },
-          {
-            "group": "Body",
-            "type": "Number",
-            "optional": false,
-            "field": "per_page",
-            "description": "<p>số lượng phần tử trong 1 trang</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "cách gọi URL:",
-          "content": "{host}/api/v1.0/articles/1",
-          "type": "JSON"
-        },
-        {
-          "title": "Body Request:",
-          "content": "{\n    \"sort_by\": \"date_created\",\n    \"sort_type\": \"desc\",\n    \"page\": 0,\n    \"per_page\": 10\n}",
-          "type": "JSON"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.code",
-            "description": "<p>Mã trạng thái HTTP</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.message",
-            "description": "<p>Thông báo kết quả</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "Object.data",
-            "description": "<p>Đối tượng trả về</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.tag_name",
-            "description": "<p>tên tag</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "Object.data.article",
-            "description": "<p>Đối tượng bài viết</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.article.article_name",
-            "description": "<p>tên bài viết</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.article.title",
-            "description": "<p>tiêu đề bài viết</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.article.thumbnail_link",
-            "description": "<p>ảnh đại diện bài viết</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "Object.data.article.views_count",
-            "description": "<p>Đếm số lượt xem</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "Object.data.paging",
-            "description": "<p>Đối tượng phân trang</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.paging.page",
-            "description": "<p>Số thứ tự trang</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.paging.per_page",
-            "description": "<p>số lượng phần tử mỗi trang</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.paging.total_items",
-            "description": "<p>tổng số lượng phần tử</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "Object.data.paging.total_pages",
-            "description": "<p>tổng số trang</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Hiển thị danh sách bài viết thành công!\",\n    \"data\": {\n          \"group_name\": \"bạch tuộc\",\n          \"article\": [\n             {\n                 \"article_name\": \"Cách chế biến món bạch tuộc chiên giòn\",\n                 \"title\": \"Có rất nhiều cách chế biến món bạch tuộc chiên giòn...\",\n                 \"thumbnail_link\": \"article1.png\",\n                 \"views_count\": 450,\n                 \"comments_count\": 0\n             },\n             {\n                 \"article_name\": \"Các cách chọn bạch tuộc ngon\",\n                 \"title\": \"Hiện nay trên thị trường có rất nhiều loại bạch tuộc...\",\n                 \"thumbnail_link\": \"article2.png\",\n                 \"views_count\": 550,\n                 \"comments_count\": 1\n             }\n          ],\n          \"paging\": {\n                 \"page\":0,\n                 \"per_page\": 10,\n                 \"total_items\": 1000,\n                 \"total_pages\": 100\n          }\n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Hiển thị danh sách bài viết thành công!\",\n    \"data\": {\n          \"article\": [\n             {\n                 \"article_name\": \"Vì sao lấy mẫu xét nghiệm Covid lúc nào cũng lấy nhóm 10 hoặc 15 người?\",\n                 \"title\": \"Nhiều người khi đi xét nghiệm luôn thắc mắc câu hỏi vì sao...\",\n                 \"thumbnail_link\": \"article1.png\",\n                 \"views_count\": 450,\n                 \"comments_count\": 0\n             },\n             {\n                 \"article_name\": \"Nấm mối là nấm gì mà giá 1 triệu/kg vẫn có người sẵn sàng mua?\",\n                 \"title\": \"Nấm mối là nguyên liệu không thể thiếu trong các món ăn ngon, hấp dẫn...\",\n                 \"thumbnail_link\": \"article2.png\",\n                 \"views_count\": 550,\n                 \"comments_count\": 1\n             }\n          ],\n          \"paging\": {\n                 \"page\":0,\n                 \"per_page\": 10,\n                 \"total_items\": 1000,\n                 \"total_pages\": 100\n          }\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -3964,7 +3872,7 @@
   {
     "type": "get",
     "url": "/articles/<customer_id>",
-    "title": "Lấy danh sách bài viết đã đăng",
+    "title": "Lấy danh sách bài viết khách hàng đã đăng",
     "name": "Lấy_danh_sách_bài_viết_đã_đăng",
     "group": "Mẹo_vặt",
     "version": "1.0.0",
@@ -4014,13 +3922,62 @@
             "optional": false,
             "field": "Object.message",
             "description": "<p>Thông báo kết quả</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Object.data",
+            "description": "<p>Kết quả trả về</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "Object.data.article",
+            "description": "<p>Đối tượng bài viết</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.article.article_name",
+            "description": "<p>tên bài viết</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.article.title",
+            "description": "<p>tiêu đề</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.article.content",
+            "description": "<p>nội dung</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.article.thumbnail_link",
+            "description": "<p>ảnh đại diện bài viết</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Object.data.article.status",
+            "description": "<p>trạng thái bài viết</p>    <ul>         <li><code>0:</code>Đang chờ duyệt</li>         <li><code>1:</code>Đã bị từ chối</li>         <li><code>2:</code>Khách hàng đã xóa</li>         <li><code>3:</code>Đã được duyệt</li>     </ul>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách thành công!\",\n    \"data\": {\n         \"articles\": [\n             {\n                 \"article_name\": \"Tên bài viết 1\",\n                 \"title\": \"Tiêu đề 1\",\n                 \"content\": \"Nội dung 1\",\n                 \"thumbnail_link\": \"image1.png\"\n             },\n             {\n                 \"article_name\": \"Tên bài viết 2\",\n                 \"title\": \"Tiêu đề 2\",\n                 \"content\": \"Nội dung 2\",\n                 \"thumbnail_link\": \"image2.png\"\n             },\n             {\n                 \"article_name\": \"Tên bài viết 3\",\n                 \"title\": \"Tiêu đề 3\",\n                 \"content\": \"Nội dung 3\",\n                 \"thumbnail_link\": \"image3.png\"\n             }\n         ]\n    }\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách thành công!\",\n    \"data\": {\n         \"articles\": [\n             {\n                 \"article_name\": \"Tên bài viết 1\",\n                 \"title\": \"Tiêu đề 1\",\n                 \"content\": \"Nội dung 1\",\n                 \"thumbnail_link\": \"image1.png\",\n                 \"status\": 0\n             },\n             {\n                 \"article_name\": \"Tên bài viết 2\",\n                 \"title\": \"Tiêu đề 2\",\n                 \"content\": \"Nội dung 2\",\n                 \"thumbnail_link\": \"image2.png\"\n                 \"status\": 1\n             },\n             {\n                 \"article_name\": \"Tên bài viết 3\",\n                 \"title\": \"Tiêu đề 3\",\n                 \"content\": \"Nội dung 3\",\n                 \"thumbnail_link\": \"image3.png\"\n                 \"status\": 2\n             }\n         ]\n    }\n}",
           "type": "JSON"
         }
       ]
@@ -4303,7 +4260,7 @@
   },
   {
     "type": "post",
-    "url": "/articles",
+    "url": "/articles/<customer_id>",
     "title": "Đăng bài viết",
     "name": "Đăng_bài_viết",
     "group": "Mẹo_vặt",
@@ -4331,7 +4288,7 @@
       "examples": [
         {
           "title": "Header mẫu:",
-          "content": "{\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\"\n}",
+          "content": "{\n   \"Content-Type\": \"application/json\",\n   \"Authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\"\n}",
           "type": "JSON"
         }
       ]
@@ -4339,13 +4296,6 @@
     "parameter": {
       "fields": {
         "Body": [
-          {
-            "group": "Body",
-            "type": "String",
-            "optional": false,
-            "field": "customer_id",
-            "description": "<p>id khách hàng</p>"
-          },
           {
             "group": "Body",
             "type": "String",
@@ -4371,8 +4321,13 @@
       },
       "examples": [
         {
+          "title": "Cách gọi URL:",
+          "content": "{host}/api/v1.0/articles/1",
+          "type": "JSON"
+        },
+        {
           "title": "Body Request:",
-          "content": "{     \n      \"customer_id\": 1,       \n      \"title\": \"Chia sẻ cách bảo quản thịt trong tủ lạnh\",\n      \"content\": \"Để bảo quản thịt trong tủ lạnh bạn cần phải...\",\n      \"articleimage\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
+          "content": "{            \n      \"title\": \"Chia sẻ cách bảo quản thịt trong tủ lạnh\",\n      \"content\": \"Để bảo quản thịt trong tủ lạnh bạn cần phải...\",\n      \"articleimage\": [\n             {\n                \"image_link\": \"image1.png\"\n             },\n             {\n                \"image_link\": \"image2.png\"\n             },\n             {\n                \"image_link\": \"image3.png\"\n             }\n      ]\n}",
           "type": "JSON"
         }
       ]
@@ -4633,261 +4588,6 @@
   },
   {
     "type": "get",
-    "url": "/product-groups/menus",
-    "title": "Lấy danh mục sản phẩm",
-    "name": "Lấy_danh_mục_sản_phẩm",
-    "group": "Sản_phẩm",
-    "version": "1.0.0",
-    "description": "<p>Lấy danh mục sản phẩm để hiển thị menu</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": true,
-            "field": "promotion_id",
-            "description": "<p><mark>ID khuyến mãi</mark></p> <ul>     <li><code>0:</code> Lấy tất cả danh mục menu không có sản phẩm khuyến mãi</li>     <li><code>-1:</code> Lấy tất cả danh mục menu đang có sản phẩm khuyến mãi</li>     <li><code>Không có:</code> Lấy cả hai</li>     <li><code>promotion_id</code> Lấy tất cả danh mục menu có <b>ID khuyến mãi</b></li> </ul>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "URL request:",
-          "content": "{host}/api/v1.0/product-groups/menus",
-          "type": "json"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.code",
-            "description": "<p>Mã trạng thái HTTP <br><mark><code>200:</code> Yêu cầu được tiếp nhận và xử lý thành công</mark></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.message",
-            "description": "<p>Thông báo kết quả</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "O.data",
-            "description": "<p>Danh sách thông tin nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.product_group_id",
-            "description": "<p>ID nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.parent_id",
-            "description": "<p>ID nhóm sản phẩm cha</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.code",
-            "description": "<p>Mã nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.name",
-            "description": "<p>Tên nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.icon_link",
-            "description": "<p>Đường dẫn icon nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.content_html",
-            "description": "<p>Nội dung mô tả nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.level",
-            "description": "<p>Cấp nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.new",
-            "description": "<p>Nhóm sản phẩm mới</p> <ul>     <li><code>0:</code> False</li>     <li><code>1:</code> True</li> </ul>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.hot",
-            "description": "<p>Nhóm sản phẩm hot</p> <ul>     <li><code>0:</code> False</li>     <li><code>1:</code> True</li> </ul>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.number_of_product_promotion",
-            "description": "<p>Số lượng sản phẩm khuyến mãi trong danh mục</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "O.data.child",
-            "description": "<p>Danh sách thông tin nhóm sản phẩm con</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.product_group_id",
-            "description": "<p>ID nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.parent_id",
-            "description": "<p>ID nhóm sản phẩm cha</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.code",
-            "description": "<p>Mã nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.name",
-            "description": "<p>Tên nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.icon_link",
-            "description": "<p>Đường dẫn icon nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.content_html",
-            "description": "<p>Nội dung mô tả nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.level",
-            "description": "<p>Cấp nhóm sản phẩm</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.new",
-            "description": "<p>Nhóm sản phẩm mới</p> <ul>     <li><code>0:</code> False</li>     <li><code>1:</code> True</li> </ul>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.hot",
-            "description": "<p>Nhóm sản phẩm hot</p> <ul>     <li><code>0:</code> False</li>     <li><code>1:</code> True</li> </ul>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.number_of_product_promotion",
-            "description": "<p>Số lượng sản phẩm khuyến mãi trong danh mục</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh mục phẩm thành công!\",\n    \"data\": [\n        {\n            \"product_group_id\": 1,\n            \"parent_id\": 0,\n            \"code\": \"NSP0001\",\n            \"name\": \"Thịt, cá, trúng, rau\",\n            \"icon_link\": \"icon1.png\",\n            \"content_html\": \"ádasdasdasdasd\",\n            \"level\": 1,\n            \"new\": 1,\n            \"hot\": 1,\n            \"number_of_product_promotion\": 25,\n            \"child\": [\n                {\n                    \"product_group_id\": 2,\n                    \"parent_id\": 1,\n                    \"code\": \"NSP0002\",\n                    \"name\": \"Trái cây tươi ngon\",\n                    \"icon_link\": \"icon2.png\",\n                    \"content_html\": \"ádasdasdasdasd\",\n                    \"level\": 2,\n                    \"new\": 0,\n                    \"hot\": 1,\n                    \"number_of_product_promotion\": 12,\n                },\n                {\n                    \"product_group_id\": 5,\n                    \"parent_id\": 1,\n                    \"code\": \"NSP0005\",\n                    \"name\": \"Thực phẩm sơ chế\",\n                    \"icon_link\": \"icon5.png\",\n                    \"content_html\": \"ádasdasdasdasd\",\n                    \"level\": 2,\n                    \"new\": 0,\n                    \"hot\": 0,\n                    \"number_of_product_promotion\": 13,\n                }\n            ]\n        },\n        {\n            \"product_group_id\": 3,\n            \"parent_id\": 0,\n            \"code\": \"NSP0003\",\n            \"name\": \"Đồ uống các loại\",\n            \"icon_link\": \"icon3.png\",\n            \"content_html\": \"ádasdasdasdasd\",\n            \"level\": 1,\n            \"new\": 0,\n            \"hot\": 0,\n            \"number_of_product_promotion\": 30,\n            \"child\": [\n                {\n                    \"product_group_id\": 4,\n                    \"parent_id\": 3,\n                    \"code\": \"NSP0004\",\n                    \"name\": \"Nước ngọt nước trà\",\n                    \"icon_link\": \"icon4.png\",\n                    \"content_html\": \"ádasdasdasdasd\",\n                    \"level\": 2,\n                    \"new\": 0,\n                    \"hot\": 0,\n                    \"number_of_product_promotion\": 30,\n                }\n            ]\n        }\n    ]\n}",
-          "type": "JSON"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400-BadRequest",
-            "description": "<p>Không thể xử lý yêu cầu.</p> <ul>     <li><code>code:</code> 400</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404-NotFound",
-            "description": "<p>Không tìm thấy dữ liệu.</p> <ul>     <li><code>code:</code> 416</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
-          }
-        ],
-        "Error 5xx": [
-          {
-            "group": "Error 5xx",
-            "optional": false,
-            "field": "500-InternalServerError",
-            "description": "<p>Lỗi Server</p> <ul>     <li><code>code:</code> 500</li>     <li><code>message:</code> Thông báo lỗi</li> </ul>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error 400:",
-          "content": "{\n    \"code\": 400,\n    \"message\": \"Sai định dạng URL!\"\n}",
-          "type": "JSON"
-        },
-        {
-          "title": "Error 404:",
-          "content": "{\n    \"code\": 404,\n    \"message\": \"Không tìm thấy dữ liệu!\"\n}",
-          "type": "JSON"
-        },
-        {
-          "title": "Error 500:",
-          "content": "{\n    \"code\": 500,\n    \"message\": \"Xảy ra lỗi khi lấy danh mục sản phẩm: Mô tả lỗi.\"\n}",
-          "type": "JSON"
-        }
-      ]
-    },
-    "filename": "source/SanPham.py",
-    "groupTitle": "Sản_phẩm"
-  },
-  {
-    "type": "get",
     "url": "/product-groups",
     "title": "Lấy danh sách nhóm sản phẩm",
     "name": "Lấy_danh_sách_nhóm_sản_phẩm",
@@ -4909,7 +4609,7 @@
             "type": "Number",
             "optional": true,
             "field": "parent_id",
-            "description": "<p><mark>ID nhóm sản phẩm cha</mark></p>"
+            "description": "<p><mark>ID nhóm sản phẩm cha <br><code>parent_id=0:</code> Lấy nhóm sản phẩm gốc</mark></p>"
           },
           {
             "group": "Parameter",
@@ -6728,10 +6428,34 @@
     "version": "1.0.0",
     "description": "<p>Lấy danh sách khu vực</p>",
     "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p><mark>ID khu vực cha <br><code>parent_id=0:</code> Lấy khu vực cấp tỉnh</mark></p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "id",
+              "sector_code",
+              "sector_name"
+            ],
+            "optional": false,
+            "field": "sort",
+            "defaultValue": "+id",
+            "description": "<p><mark>Sắp xếp dữ liệu. Ví dụ: <code>sort=+field_1,-field_2,field_3</code></mark></p> <ul>     <li><code>+:</code> Sắp xếp tăng dần</li>     <li><code>-:</code> Sắp xếp giảm dần</li>     <li><code>Mặc định:</code> Sắp xếp tăng dần</li> </ul>"
+          }
+        ]
+      },
       "examples": [
         {
           "title": "URL request:",
-          "content": "{host}/api/v1.0/sectors",
+          "content": "{host}/api/v1.0/sectors?parent_id=0&sort=+id",
           "type": "json"
         }
       ]
@@ -6778,14 +6502,14 @@
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "O.data.code",
+            "field": "O.data.sector_code",
             "description": "<p>Mã khu vực</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "O.data.name",
+            "field": "O.data.sector_name",
             "description": "<p>Tên khu vực</p>"
           },
           {
@@ -6794,97 +6518,13 @@
             "optional": false,
             "field": "O.data.level",
             "description": "<p>Cấp khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "O.data.child",
-            "description": "<p>Danh sách thông tin khu vực con</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.sector_id",
-            "description": "<p>ID khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.parent_id",
-            "description": "<p>ID khu vực cha</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.code",
-            "description": "<p>Mã khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.name",
-            "description": "<p>Tên khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.level",
-            "description": "<p>Cấp khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "O.data.child.child",
-            "description": "<p>Danh sách thông tin khu vực con</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.child.sector_id",
-            "description": "<p>ID khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.child.parent_id",
-            "description": "<p>ID khu vực cha</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.child.code",
-            "description": "<p>Mã khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "O.data.child.child.name",
-            "description": "<p>Tên khu vực</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "O.data.child.child.level",
-            "description": "<p>Cấp khu vực</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success 200:",
-          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách khu vực thành công!\",\n    \"data\": [\n        {\n            \"sector_id\": 1,\n            \"parent_id\": 0,\n            \"code\": \"NSP0001\",\n            \"name\": \"TP. Hồ Chí Minh\",\n            \"level\": 1,\n            \"child\": [\n                {\n                    \"sector_id\": 68,\n                    \"parent_id\": 1,\n                    \"code\": \"NSP0068\",\n                    \"name\": \"Quận 1\",\n                    \"level\": 2,\n                    \"child\": [\n                         {\n                            \"sector_id\": 70,\n                            \"parent_id\": 68,\n                            \"code\": \"NSP0068\",\n                            \"name\": \"An Khánh\",\n                            \"level\": 3\n                        }\n                    ]\n                },\n                {\n                    \"sector_id\": 69,\n                    \"parent_id\": 1,\n                    \"code\": \"NSP0069\",\n                    \"name\": \"Quận 2\",\n                    \"level\": 2,\n                    \"child\": [\n                         {\n                            \"sector_id\": 71,\n                            \"parent_id\": 69,\n                            \"code\": \"NSP0071\",\n                            \"name\": \"Nhà Thờ\",\n                            \"level\": 3\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"sector_id\": 2,\n            \"parent_id\": 0,\n            \"code\": \"NSP0001\",\n            \"name\": \"An Giang\",\n            \"level\": 1,\n            \"child\": [\n                {\n                    \"sector_id\": 80,\n                    \"parent_id\": 2,\n                    \"code\": \"NSP0069\",\n                    \"name\": \"TP. Châu Đốc\",\n                    \"level\": 2,\n                    \"child\": [\n                         {\n                            \"sector_id\": 82,\n                            \"parent_id\": 80,\n                            \"code\": \"NSP0071\",\n                            \"name\": \"Hòa An\",\n                            \"level\": 3\n                        }\n                    ]\n                }                \n            ]\n        }\n    ]\n}",
+          "content": "{\n    \"code\": 200,\n    \"message\": \"Lấy danh sách khu vực thành công!\",\n    \"data\": [\n        {\n            \"sector_id\": 1,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH001\",\n            \"sector_name\": \"TP. Hồ Chí Minh\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 2,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH002\",\n            \"sector_name\": \"An Giang\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 3,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH003\",\n            \"sector_name\": \"Bạc Liêu\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 4,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH004\",\n            \"sector_name\": \"Bến Tre\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 5,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH005\",\n            \"sector_name\": \"Bình Dương\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 6,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH006\",\n            \"sector_name\": \"Bình Phước\",\n            \"level\": 1\n        },\n        {\n            \"sector_id\": 7,\n            \"parent_id\": 0,\n            \"sector_code\": \"TINH007\",\n            \"sector_name\": \"Bình Thuận\",\n            \"level\": 1\n        }\n    ]\n}",
           "type": "JSON"
         }
       ]

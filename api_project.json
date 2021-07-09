@@ -16,7 +16,6 @@
     "Sản_phẩm_đã_xem",
     "Sản_phẩm_đã_mua",
     "Sản_phẩm",
-    "Lấy_danh_mục_sản_phẩm",
     "Lấy_danh_sách_nhóm_sản_phẩm",
     "Lấy_danh_sách_thương_hiệu",
     "Lấy_danh_sách_sản_phẩm",
@@ -27,6 +26,7 @@
     "Thích_bình_luận_đánh_giá",
     "Khuyến_mãi",
     "Lấy_danh_sách_khuyến_mãi",
+    "Lấy_tổng_khuyến_mãi",
     "Quảng_cáo",
     "Lấy_quảng_cáo",
     "Địa_chỉ",
@@ -41,8 +41,7 @@
     "Tạo_đơn_hàng",
     "Hủy_đơn_hàng",
     "Mẹo_vặt",
-    "Lấy_danh_sách_bài_viết_theo_nhóm",
-    "Lấy_danh_sách_bài_viết_theo_tag",
+    "Lấy_danh_sách_bài_viết",
     "Xem_bài_viết",
     "Đăng_bài_viết",
     "Lấy_danh_sách_bài_viết_đã_đăng",
@@ -53,7 +52,7 @@
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2021-07-08T09:48:55.805Z",
+    "time": "2021-07-09T11:04:16.377Z",
     "url": "https://apidocjs.com",
     "version": "0.28.1"
   }
